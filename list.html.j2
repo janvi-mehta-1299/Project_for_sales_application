@@ -1,0 +1,67 @@
+{% extends 'layouts/wrapper.html.j2' %}
+
+{% block content %}
+    <h3>Sales Data</h3>
+     {% if sales %}
+     <table class="table table-striped">
+     <thread>
+     <tr>
+        <th>Id</th>
+        <th>Total cost</th>
+        <th>Commission Rate</th>
+        <th>Tax rate</th>
+        <th>Description</th>
+        <th>Commision amount</th>
+        <th>Tax amount</th>
+        <th> Caculated total cost </th>
+        <th>Created At </th>
+        <th>Updated At </th> 
+        <th>Update </th>
+        <th> Delete </th>
+     </tr>
+     </thread>
+     <tbody>
+
+        {% for sale in sales %}
+                    <tr>
+                        <td>{{ sale.id }}</td>
+                        <td>{{ sale.total_price }}</td>
+                        <td>{{ sale.commission_rate }}</td>
+                        <td>{{ sale.tax_rate }}</td>
+                        <td>{{ sale.description }}</td>
+                        <td>{{ sale.commission_amount }}</td>
+                        <td>{{ sale.tax_amount }}</td>
+                        <td>{{ sale.final_total_cost }}</td>
+                        <td>{{ sale.created_at }}</td>
+                        <td>{{ sale.updated_at }}</td>
+
+                        <td>
+        <!-- 🖊 Edit button links to the edit page -->
+        <a href="{{ url_for('default.edit_data', sale_id=sale.id) }}" class="btn btn-sm btn-warning">Edit</a>
+      </td>
+<td>
+
+        <!-- 🗑 Delete form -->
+        <a href="{{ url_for('default.delete_data', sale_id=sale.id) }}" class="btn btn-sm btn-warning">Delete</a>
+</td>
+                    </tr>
+                {% endfor %}
+     </tbody>
+     </table>
+     {% else %}
+        <p>No sales data available.</p>
+    {% endif %}
+
+    <div class="d-flex gap-2 mt-3">
+     <form action="/add-sale" method="post">
+        <button class="btn btn-secondary" type="submit">Return To Home</button>
+    </form>
+</div>
+{% if msg %}
+  {% if msg == 'updated' %}
+    <div class="alert alert-info">Sale updated successfully!</div>
+    {% elif msg == 'deleted' %}
+    <div class="alert alert-danger">Sale deleted successfully!</div>
+    {% endif %}
+    {% endif %}
+{% endblock content %}
